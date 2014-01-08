@@ -67,9 +67,16 @@ puts "Checking right directory ..."
     puts "...wow, all passed!"
   end
 
-puts "Checking if the image is readable ..."
+puts "Reading the images..."
+  Exam.all.each do |e|
+    e.report_full_consistency
+  end
+ 
+#puts "checking ids... "
   
-  Exam.all.each {|e| e.read_files_img}
+  #Exam.all.each do |e|
+    #e.checking_id
+  #end
 
 
 

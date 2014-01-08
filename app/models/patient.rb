@@ -8,6 +8,12 @@ class Patient < ActiveRecord::Base
 		"#{Exam::EXAM_BASE_DIR}/#{self.id}"
 	end
 
+   def self.check_consistence_from_patient(patient_dir)
+    pat_id = patient_dir.split("/").pop.first.to_i rescue 0
+    pat_obj = Patient.find(pat_id) rescue nil
+    return pat_obj.blank? ?  false : true
+  end
+
 
   def destroy
   	super
