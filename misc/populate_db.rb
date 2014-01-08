@@ -68,15 +68,8 @@ puts "Checking right directory ..."
   end
 
 puts "Reading the images..."
-  Exam.all.each do |e|
-    e.report_full_consistency
-  end
  
-#puts "checking ids... "
-  
-  #Exam.all.each do |e|
-    #e.checking_id
-  #end
+    Exam.report_full_consistency
 
 
 
