@@ -2,7 +2,7 @@
 puts "Preparing for testing: erasing patients and exams"
 
 Patient.all.each {|p| p.destroy}
-#Exam.all.each {|e| e.destroy}
+Exam.all.each {|e| e.destroy}
 
 puts "Populating..."
 
@@ -21,9 +21,12 @@ pat_names.each do |pat|
   p = Patient.create firstname: pat[:fname], lastname: pat[:lname] 
       if p.firstname != "Matteo" && p.lastname != "Marcolin"
           rand(1...5).times do
-            e = Exam.create patient_id: p.id, image: 'image.jpg' 
-            FileUtils.mkdir_p e.image_dir unless File.directory? e.image_dir
-            FileUtils.cp EXAM_FAKE_IMAGE, e.image_path
+            n = rand(1...5)
+            if n != 1
+              e = Exam.create patient_id: p.id, image: 'image.jpg'
+              FileUtils.mkdir_p e.image_dir unless File.directory? e.image_dir
+              FileUtils.cp EXAM_FAKE_IMAGE, e.image_path
+            end
           end
       end
 end
@@ -39,7 +42,7 @@ puts "Checking image sizebyte ..."
     puts "...failed!"
   else
     puts "...wow, all passed!"
-  end
+  end     
 
 puts "Cheking file ..."
   
@@ -69,8 +72,16 @@ puts "Checking right directory ..."
 
 puts "Reading the images..."
  
-    Exam.report_full_consistency
+    #Exam.report_full_consistency
 
+global_report_full_consistency_test = true
+  global_report_full_consistency_test = Exam.report_full_consistency
+
+unless global_report_full_consistency_test
+  puts "...failed!"
+else
+  puts "...wow, all passed!" 
+end
 
 
 

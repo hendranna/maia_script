@@ -29,15 +29,15 @@ class Exam < ActiveRecord::Base
   end
 
   
-  def destroy
-   super
-    begin
-      FileUtils.rm self.image_path
-      FileUtils.rm_rf self.image_dir
-    rescue Exception => exc
-      puts "Oooops, encountered an exception #{exc}"
-    end
-  end
+  #def destroy
+   #super
+    #begin
+      #FileUtils.rm self.image_path
+      #FileUtils.rm_rf self.image_dir
+    #rescue Exception => exc
+      #puts "Oooops, encountered an exception #{exc}"
+    #end
+  #end
 
   def self.check_consistence_from_image(image_path)
     ex_id = image_path.split("/").pop(2).first.to_i rescue 0
@@ -47,7 +47,8 @@ class Exam < ActiveRecord::Base
 
   def self.check_consistence_from_patient(image_path)
     pat_id = image_path.split("/").pop(3).first.to_i rescue 0
-    return pat_id 
+    pat_obj = Patient.find(pat_id) rescue nil
+    return pat_obj.blank? ? false : true
   end
 
   def self.report_full_consistency
@@ -60,23 +61,23 @@ class Exam < ActiveRecord::Base
 
         image_file_name = EXAM_BASE_DIR+"/"+entry+"/"+subentry+"/image.jpg"
           
-        generic = false 
+        dir_generic = false 
         pat_generic = false
         if File.exist? image_file_name
-          generic = Exam.check_consistence_from_image(image_file_name)
+          dir_generic = Exam.check_consistence_from_image(image_file_name)
           pat_generic = Exam.check_consistence_from_patient(image_file_name)
         end
 
-        if generic
-          puts "This exam id: #{subentry} exists"
+        if dir_generic
+          return "This exam id: #{subentry} exists"
         else
-          puts "Oops, this is a nasty exam!"
+          return "Oops, this is a nasty exam!"
         end
 
-        if pat_generic >= Patient.first.id 
-          puts "This patient id: #{entry} exists"
+        if pat_generic 
+          return "This patient id: #{entry} exists"
         else
-          puts "Naughty patient, you are not in the database!"
+          return "Naughty patient, you are not in the database!"
         end
 
       end
