@@ -14,20 +14,19 @@ class Exam < ActiveRecord::Base
     return EXAM_BASE_DIR + "/#{self.patient_id}/#{self.id}/#{self.image}"
   end
 
-  def image_size_validation
-    sz = File.size?(self.image_path)
-    fsize_cond = !sz.blank? && sz > 0
-    return fsize_cond
-  end
-
-  def check_file
-    return File.exist? image_path 
-  end
-
   def check_right_dir
     return self.image_dir.include?(self.id.to_s)
   end
 
+  def check_file
+    return File.exist? image_path rescue patient_id = nil
+  end
+
+  def image_size_validation
+    sz = File.size?(self.image_path)
+    fsize_cond = !sz.blank? && sz > 0 && image != nil
+    return fsize_cond
+  end
   
   #def destroy
    #super

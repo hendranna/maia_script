@@ -1,15 +1,15 @@
-puts "Checking image sizebyte ..."
 
-  global_fsize_test = true
+puts "Checking right directory..."
+  global_checkdir_test = true
   Exam.all.each do |e|
-    global_fsize_test = e.image_size_validation
-    break unless global_fsize_test
+    global_checkdir_test = e.check_right_dir
+    break unless global_checkdir_test
   end
-  unless global_fsize_test
+  unless global_checkdir_test
     puts "...failed!"
   else
     puts "...wow, all passed!"
-  end     
+  end
 
 puts "Cheking file ..."
   
@@ -24,15 +24,15 @@ puts "Cheking file ..."
     puts "...wow,all passed!"
   end
 
-puts "Checking right directory ..."
+  puts "Checking image sizebyte ..."
 
-  global_checkdir_test = true
+  global_fsize_test = true
   Exam.all.each do |e|
-    global_checkdir_test = e.check_right_dir
-    break unless global_checkdir_test
+    global_fsize_test = e.image_size_validation
+    break unless global_fsize_test
   end
-  unless global_checkdir_test
+  unless global_fsize_test
     puts "...failed!"
   else
     puts "...wow, all passed!"
-  end
+  end     

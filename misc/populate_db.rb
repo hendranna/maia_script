@@ -20,14 +20,29 @@ pat_names.each do |pat|
   
   p = Patient.create firstname: pat[:fname], lastname: pat[:lname] 
       if p.firstname != "Matteo" && p.lastname != "Marcolin"
-          rand(1...5).times do
-            n = rand(1...5)
-            if n != 1
-              e = Exam.create patient_id: p.id, image: 'image.jpg'
-              FileUtils.mkdir_p e.image_dir unless File.directory? e.image_dir
-              FileUtils.cp EXAM_FAKE_IMAGE, e.image_path
-            end
-          end
+          rand(1...3).times do
+           
+              if (2...3)
+                rand(1...2).times do
+                  e = Exam.create patient_id: p.id, image: 'image.jpg'
+                  FileUtils.mkdir_p e.image_dir unless File.directory? e.image_dir
+                  FileUtils.cp EXAM_FAKE_IMAGE, e.image_path
+                end
+              end
+              if 1...2
+                rand(1...2).times do
+                  e = Exam.create patient_id: p.id, image: nil
+                  FileUtils.mkdir_p e.image_dir unless File.directory? e.image_dir
+                end
+              end
+              if 3...4
+                rand(1..2).times do
+                  e =Exam.create image: 'image.jpg'
+                   FileUtils.mkdir_p e.image_dir unless File.directory? e.image_dir
+                  FileUtils.cp EXAM_FAKE_IMAGE, e.image_path
+                end
+              end
+          end      
       end
 end
 
