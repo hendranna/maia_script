@@ -1,4 +1,3 @@
-
 puts "Preparing for testing: erasing patients and exams"
 
 Patient.all.each {|p| p.destroy}
@@ -7,6 +6,8 @@ Exam.all.each {|e| e.destroy}
 puts "Populating..."
 
 EXAM_FAKE_IMAGE = "#{Rails.root.to_s}/misc/exam_fake_image.jpg"
+#FAKE_IMAGE_DIR = "#{Rails.root.to_s}/misc/}"
+
 
 pat_names = [{fname: "Anna", lname: "Hendre"},
 						{fname: "Mario", lname: "Rossi"},
@@ -42,39 +43,5 @@ rand(1...2).times do
           e = Exam.create patient_id: rand(5000...5100), image: 'image.jpg'
           FileUtils.mkdir_p e.image_dir unless File.directory? e.image_dir
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-    
-
-
-
-
-
-
-
-
 
 
