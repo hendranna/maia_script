@@ -9,6 +9,7 @@ gem 'json'
 
 group :development do
 	gem 'better_errors'
+	gem "ruby-progressbar", "~> 1.4.0"
 	
 end
 
